@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   # Frontend routes - serve React app
   root "home#index"
-  
+
   # Catch-all route for React Router client-side routing
   get "*path", to: "home#index", constraints: ->(request) { !request.path.start_with?("/api") }
 end

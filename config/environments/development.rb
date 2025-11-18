@@ -86,5 +86,5 @@ Rails.application.configure do
 
   # Allow Vite dev server in CSP for development
   config.content_security_policy_nonce_generator = ->(request) { SecureRandom.base64(16) }
-  config.content_security_policy_nonce_directives = %w(script-src)
+  config.content_security_policy_nonce_directives = %w[script-src]
 end
