@@ -5,11 +5,21 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import App from "../src/App";
 import "./application.css";
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!publishableKey) {
+  throw new Error("Missing env VITE_CLERK_PUBLISHABLE_KEY for Clerk.");
+}
+
+if (!publishableKey.startsWith("pk_")) {
+  throw new Error(
+    `Invalid VITE_CLERK_PUBLISHABLE_KEY (${publishableKey}). Expected a key beginning with "pk_".`
+  );
+}
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <ClerkProvider publishableKey={publishableKey}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
