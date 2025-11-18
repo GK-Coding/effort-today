@@ -11,7 +11,6 @@ if ENV["CLERK_SECRET_KEY"].present?
     config.secret_key = ENV["CLERK_SECRET_KEY"]
   end
 
-  Rails.logger.info "Clerk configured with instance: #{Clerk.configuration.instance_slug}"
 else
   Rails.logger.warn "No CLERK_SECRET_KEY—auth disabled (dev mode?)"
 end
