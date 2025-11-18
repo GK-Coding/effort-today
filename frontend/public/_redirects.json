@@ -1,0 +1,17 @@
+{
+  "redirects": [
+    {
+      "source": "/assets/:path*",
+      "destination": "/assets/:path*",
+      "permanent": false,
+      "statusCode": 200
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!assets).)*",
+      "destination": "/index.html"
+    }
+  ]
+}
+

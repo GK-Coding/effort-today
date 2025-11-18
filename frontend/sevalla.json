@@ -1,0 +1,17 @@
+{
+  "build": {
+    "command": "npm run build",
+    "output": "dist"
+  },
+  "routes": {
+    "/assets/*": {
+      "headers": {
+        "Content-Type": "application/javascript; charset=utf-8"
+      }
+    },
+    "/*": {
+      "rewrite": "/index.html"
+    }
+  }
+}
+
