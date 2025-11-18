@@ -12,4 +12,3 @@ class Task < ApplicationRecord
     (pain ** 2) + desire
   end
 end
-
