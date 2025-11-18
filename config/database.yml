@@ -87,9 +87,14 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: effort_today_production
-    username: effort_today
-    password: <%= ENV["EFFORT_TODAY_DATABASE_PASSWORD"] %>
+    <% if ENV["DB_URL"] %>
+    url: <%= ENV["DB_URL"] %>
+    <% end %>
+    host: <%= ENV.fetch("DB_HOST", "localhost") %>
+    port: <%= ENV.fetch("DB_PORT", 5432) %>
+    database: <%= ENV.fetch("DB_DATABASE", "effort_today_production") %>
+    username: <%= ENV.fetch("DB_USERNAME", "effort_today") %>
+    password: <%= ENV["DB_PASSWORD"] || ENV["EFFORT_TODAY_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: effort_today_production_cache
