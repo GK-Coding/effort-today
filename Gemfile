@@ -56,3 +56,5 @@ gem "dotenv-rails", "~> 3.1"
 gem "httparty", "~> 0.23.2"
 
 gem "clerk-sdk-ruby", "~> 4.1", require: "clerk"
+
+gem "vite_rails"

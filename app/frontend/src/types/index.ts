@@ -20,3 +20,10 @@ export type DifficultyMeta = {
   activeClass: string;
   inactiveClass: string;
 };
+
+export type FilterMode =
+  | "smart"
+  | "deadline"
+  | "difficulty-hard"
+  | "difficulty-easy"
+  | "deferred";

@@ -5,10 +5,14 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-
+  # API routes
   namespace :api do
     resources :tasks, only: [ :index, :create, :update ]
   end
+
+  # Frontend routes - serve React app
+  root "home#index"
+  
+  # Catch-all route for React Router client-side routing
+  get "*path", to: "home#index", constraints: ->(request) { !request.path.start_with?("/api") }
 end

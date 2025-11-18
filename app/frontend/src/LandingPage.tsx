@@ -1,6 +1,53 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ActiveTaskCard from "./components/ActiveTaskCard";
+import type { Task } from "./types";
 
+const sampleTopTasks: Task[] = [
+  {
+    id: "demo-top-1",
+    description: "Follow up with the design client",
+    state: 1,
+    pain: 7,
+    desire: 3,
+    salience: 18,
+    is_stuck: false,
+    deferred_count: 3,
+    deadline: "2025-11-20",
+    parent_id: null,
+    subtasks: [],
+  },
+  {
+    id: "demo-top-2",
+    description: "Prep 3 talking points for therapy",
+    state: 0,
+    pain: 5,
+    desire: 4,
+    salience: 42,
+    is_stuck: false,
+    deferred_count: 1,
+    deadline: "2025-11-19",
+    parent_id: null,
+    subtasks: [],
+  },
+  {
+    id: "demo-top-3",
+    description: "Reset kitchen + desk for tomorrow",
+    state: 0,
+    pain: 3,
+    desire: 6,
+    salience: 78,
+    is_stuck: false,
+    deferred_count: 0,
+    deadline: null,
+    parent_id: null,
+    subtasks: [],
+  },
+];
+
+const noopAdvanceState = (_id: string, _newState: number) => {};
+const noopMarkStuck = (_id: string) => {};
+const noopTaskHandler = (_task: Task) => {};
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 flex flex-col">
@@ -8,7 +55,7 @@ const LandingPage: React.FC = () => {
       <header className="border-b border-slate-800">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 via-sky-500 to-emerald-400 text-base font-bold shadow-lg shadow-indigo-500/40">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-tr from-indigo-500 via-sky-500 to-emerald-400 text-base font-bold shadow-lg shadow-indigo-500/40">
               ET
             </div>
             <div className="flex flex-col">
@@ -128,91 +175,41 @@ const LandingPage: React.FC = () => {
             </ul>
           </section>
 
-          {/* Right column: app-style preview */}
+          {/* Right column: in-app preview */}
           <section className="mt-10 w-full max-w-md lg:mt-0">
-            <div className="relative rounded-2xl border border-slate-800 bg-slate-900/70 p-4 shadow-xl shadow-slate-950/60">
-              <div className="mb-3 flex items-center justify-between text-xs text-slate-400">
-                <span className="font-medium text-slate-200">
-                  Today&apos;s focus
-                </span>
-                <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] uppercase tracking-wide text-emerald-300">
-                  Top 3 hot tasks
-                </span>
-              </div>
+            <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5 shadow-2xl shadow-slate-950/70">
+              <div className="pointer-events-none absolute inset-x-6 top-4 h-32 rounded-3xl bg-linear-to-r from-indigo-500/30 via-sky-500/30 to-emerald-400/30 blur-3xl" />
+              <div className="relative z-10">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">
+                  Inside the real app
+                </p>
+                <h2 className="mt-1 text-lg font-semibold text-white">
+                  Your focus list, simplified
+                </h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  A peek at two real cards from the signed-in experience. It’s
+                  the same component you’ll use every day—just without your own
+                  data yet.
+                </p>
 
-              <div className="space-y-3">
-                {[
-                  {
-                    label: "Send client update email",
-                    pain: 4,
-                    desire: 2,
-                    score: 18,
-                    deferred: 2,
-                  },
-                  {
-                    label: "Tidy your desk for 10 minutes",
-                    pain: 2,
-                    desire: 4,
-                    score: 8,
-                    deferred: 0,
-                  },
-                  {
-                    label: "Write 3 bullets for tomorrow",
-                    pain: 3,
-                    desire: 3,
-                    score: 12,
-                    deferred: 1,
-                  },
-                ].map((task, idx) => (
-                  <div
-                    key={idx}
-                    className="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3 text-xs text-slate-100"
-                  >
-                    <div className="mb-1 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-800 text-[10px] text-slate-300">
-                          {idx + 1}
-                        </span>
-                        <p className="text-xs font-medium">{task.label}</p>
-                      </div>
-                      <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-300">
-                        Priority {task.score}
-                      </span>
-                    </div>
-                    <div className="mb-2 text-[11px] text-slate-400">
-                      Importance: {task.pain}/5 · Energy for it: {task.desire}/5
-                      {task.deferred > 0 && (
-                        <span className="ml-2 text-[11px] text-slate-500">
-                          Delayed {task.deferred}x
-                        </span>
-                      )}
-                    </div>
-                    <button className="inline-flex items-center rounded-full bg-indigo-500 px-3 py-1 text-[11px] font-semibold text-white shadow shadow-indigo-500/40 hover:bg-indigo-400 transition-colors">
-                      {idx === 0 ? "Start this" : "Mark done"}
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 rounded-xl bg-gradient-to-r from-indigo-500/10 via-sky-500/10 to-emerald-500/10 px-3 py-3 text-xs text-slate-200">
-                <p className="mb-1 font-medium">How EffortToday works</p>
-                <ul className="mt-1 space-y-1 text-[11px] text-slate-300">
-                  <li>• Add a task in your own words.</li>
-                  <li>
-                    • Slide to set how stressful it is to ignore and how ready
-                    you feel to do it.
-                  </li>
-                  <li>
-                    • We give each task a simple score and highlight the top
-                    few, so you don&apos;t have to think about the rest.
-                  </li>
-                  <li>• Check them off and see your effort add up over time.</li>
-                </ul>
+                <div className="mt-5 space-y-3 rounded-2xl border border-slate-800 bg-slate-950/90 p-4 shadow-lg shadow-slate-950/40">
+                  {sampleTopTasks.slice(0, 2).map((task, index) => (
+                    <ActiveTaskCard
+                      key={task.id}
+                      task={task}
+                      highlight={index === 0}
+                      onAdvanceState={noopAdvanceState}
+                      onMarkStuck={noopMarkStuck}
+                      onViewDetails={noopTaskHandler}
+                      onAddSubtaskFromAlert={noopTaskHandler}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 
             <p className="mt-4 text-center text-[11px] text-slate-500">
-              Sign up to see your own tasks here, instead of the demo.
+              Sign up to see your own tasks in this exact workspace.
             </p>
           </section>
         </div>
