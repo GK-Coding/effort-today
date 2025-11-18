@@ -1,0 +1,32 @@
+# Enable rewrite engine
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Don't rewrite requests for assets
+  RewriteCond %{REQUEST_URI} ^/assets/.*$
+  RewriteRule ^ - [L]
+  
+  # Don't rewrite requests for files that exist
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # SPA fallback - route everything else to index.html
+  RewriteRule ^ /index.html [L]
+</IfModule>
+
+# Set MIME types for assets
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+  AddCharset UTF-8 .js .mjs .css .html
+</IfModule>
+
+# Cache static assets
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|mjs|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Content-Type "application/javascript; charset=utf-8" env=JS
+    Header set Content-Type "text/css; charset=utf-8" env=CSS
+  </FilesMatch>
+</IfModule>
+

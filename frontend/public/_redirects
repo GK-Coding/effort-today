@@ -1,6 +1,7 @@
-# Serve static assets directly
+# Netlify redirects file
+# Assets should be served directly - this ensures they're not routed through SPA
 /assets/*  /assets/:splat  200
 
-# SPA fallback - only for non-asset routes
+# SPA fallback - route all other requests to index.html
 /*    /index.html   200
 
