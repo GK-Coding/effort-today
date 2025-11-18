@@ -50,7 +50,6 @@ group :development, :test do
 end
 
 gem "rack-cors", "~> 3.0"
-gem "jwt"
 
 gem "dotenv-rails", "~> 3.1"
 
