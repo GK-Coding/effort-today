@@ -85,25 +85,12 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    <% if ENV["DB_URL"] %>
-    url: <%= ENV["DB_URL"] %>
-    <% end %>
-    host: <%= ENV.fetch("DB_HOST", "localhost") %>
-    port: <%= ENV.fetch("DB_PORT", 5432) %>
-    database: <%= ENV.fetch("DB_DATABASE", "effort_today_production") %>
-    username: <%= ENV.fetch("DB_USERNAME", "effort_today") %>
-    password: <%= ENV["DB_PASSWORD"] || ENV["EFFORT_TODAY_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: <%= ENV.fetch("DB_DATABASE", "effort_today_production") %>
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: <%= ENV.fetch("DB_DATABASE", "effort_today_production") %>
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: <%= ENV.fetch("DB_DATABASE", "effort_today_production") %>
-    migrations_paths: db/cable_migrate
+  <<: *default
+  <% if ENV["DB_URL"] %>
+  url: <%= ENV["DB_URL"] %>
+  <% end %>
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
+  database: <%= ENV.fetch("DB_DATABASE", "effort_today_production") %>
+  username: <%= ENV.fetch("DB_USERNAME", "effort_today") %>
+  password: <%= ENV["DB_PASSWORD"] || ENV["EFFORT_TODAY_DATABASE_PASSWORD"] %>
