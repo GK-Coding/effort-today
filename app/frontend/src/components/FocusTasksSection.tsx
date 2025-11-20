@@ -89,18 +89,54 @@ const FocusTasksSection: React.FC<FocusTasksSectionProps> = ({
   onAddSubtaskFromAlert,
 }) => {
   const filterLabel = getFilterLabel(filterMode);
+  const activeFilter = FILTER_OPTIONS.find(
+    (option) => option.mode === filterMode
+  );
 
   return (
     <section className={className}>
-      <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
-        <span className="font-medium text-slate-200">Top 3 focus tasks</span>
-        <div className="relative">
+      <div className="mb-2 flex flex-col gap-2 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col">
+          <span className="font-medium text-slate-200">Top 3 focus tasks</span>
+          <span className="text-[11px] text-slate-500">
+            Tap to change how we pick them
+          </span>
+        </div>
+        <div className="relative self-start sm:self-auto">
           <button
             type="button"
             onClick={onToggleFilterMenu}
-            className="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] uppercase tracking-wide text-slate-300 hover:border-slate-600 hover:bg-slate-800 border border-slate-800"
+            aria-haspopup="menu"
+            aria-expanded={isFilterMenuOpen}
+            className="group flex items-center gap-3 rounded-full border border-indigo-500/40 bg-gradient-to-r from-indigo-500/20 via-slate-900 to-slate-900 px-3 py-1.5 text-left shadow-[0_0_20px_rgba(99,102,241,0.25)] transition-all hover:border-indigo-400/70 hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70"
           >
-            {filterLabel}
+            <span
+              className={`h-2.5 w-2.5 rounded-full shadow-inner shadow-black/40 ${
+                activeFilter?.dotClass ?? "bg-slate-500"
+              }`}
+            />
+            <div className="flex flex-col leading-none">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400">
+                Filter
+              </span>
+              <span className="text-xs font-semibold text-indigo-100">
+                {filterLabel}
+              </span>
+            </div>
+            <svg
+              className="h-3.5 w-3.5 text-indigo-200 transition-transform group-hover:-rotate-3"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 5h16" />
+              <path d="M7 12h10" />
+              <path d="M10 19h4" />
+            </svg>
           </button>
           {isFilterMenuOpen && (
             <div className="absolute right-0 top-full z-50 mt-1 w-56 rounded-lg border border-slate-800 bg-slate-900/95 text-xs text-slate-200 shadow-lg shadow-slate-950/60">

@@ -87,6 +87,8 @@ const TaskDetailsDialog: React.FC<TaskDetailsDialogProps> = ({
         }
     };
 
+    const sliderTrack = "w-full appearance-none rounded-full bg-slate-800/80";
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
             <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-950 p-5 shadow-xl shadow-black/60">
@@ -248,29 +250,31 @@ const TaskDetailsDialog: React.FC<TaskDetailsDialogProps> = ({
                     </div>
 
                     {isSubtaskFormOpen && (
-                        <>
-                            <div className="mt-2 space-y-3 text-xs text-slate-300">
-                                <div>
-                                    <label className="mb-1 block">
-                                        Subtask description
-                                    </label>
+                        <div className="mt-3 space-y-3 rounded-2xl border border-slate-800/60 bg-slate-950/80 p-4 shadow-inner shadow-black/40">
+                            <div className="space-y-1">
+                                <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                                    Subtask summary
+                                </span>
+                                <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 px-3 py-2.5 focus-within:border-indigo-400/80 focus-within:ring-2 focus-within:ring-indigo-500/30 transition-all">
                                     <input
                                         value={subDescription}
                                         onChange={(e) =>
                                             setSubDescription(e.target.value)
                                         }
-                                        placeholder="Make the first tiny step (e.g., Open notes app)"
-                                        className="w-full rounded-lg border border-slate-800 bg-slate-900/70 px-3 py-2 text-xs text-slate-50 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="e.g., Outline bullet points"
+                                        className="w-full bg-transparent text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none"
                                     />
                                 </div>
+                            </div>
 
-                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                    <label className="sm:w-40">
-                                        Pain if ignored (0–10):{" "}
-                                        <span className="font-semibold text-rose-300">
-                                            {subPain}
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 p-3">
+                                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                                        <span>Pain</span>
+                                        <span className="text-rose-200">
+                                            {subPain}/10
                                         </span>
-                                    </label>
+                                    </div>
                                     <input
                                         type="range"
                                         min="0"
@@ -279,17 +283,17 @@ const TaskDetailsDialog: React.FC<TaskDetailsDialogProps> = ({
                                         onChange={(e) =>
                                             setSubPain(+e.target.value)
                                         }
-                                        className="w-full accent-rose-400 sm:w-40"
+                                        className={`${sliderTrack} accent-rose-400 mt-2`}
+                                        style={{ accentColor: "#fb7185" }}
                                     />
                                 </div>
-
-                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                    <label className="sm:w-40">
-                                        Desire to start (0–10):{" "}
-                                        <span className="font-semibold text-sky-300">
-                                            {subDesire}
+                                <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 p-3">
+                                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                                        <span>Desire</span>
+                                        <span className="text-sky-200">
+                                            {subDesire}/10
                                         </span>
-                                    </label>
+                                    </div>
                                     <input
                                         type="range"
                                         min="0"
@@ -298,30 +302,36 @@ const TaskDetailsDialog: React.FC<TaskDetailsDialogProps> = ({
                                         onChange={(e) =>
                                             setSubDesire(+e.target.value)
                                         }
-                                        className="w-full accent-sky-400 sm:w-40"
+                                        className={`${sliderTrack} accent-sky-400 mt-2`}
+                                        style={{ accentColor: "#38bdf8" }}
                                     />
                                 </div>
+                            </div>
 
-                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                    <label className="sm:w-40">
-                                        Deadline (optional)
-                                    </label>
+                            <div className="space-y-1">
+                                <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                                    Deadline
+                                    <span className="ml-2 lowercase text-slate-600">
+                                        optional
+                                    </span>
+                                </span>
+                                <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 px-3 py-2 focus-within:border-sky-400/80 focus-within:ring-2 focus-within:ring-sky-500/30 transition-all">
                                     <input
                                         type="date"
                                         value={subDeadline}
                                         onChange={(e) =>
                                             setSubDeadline(e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-slate-800 bg-slate-900/70 px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:w-auto"
+                                        className="w-full bg-transparent text-xs text-slate-100 focus:outline-none [&::-webkit-calendar-picker-indicator]:invert"
                                     />
                                 </div>
                             </div>
 
-                            <div className="mt-4 flex justify-end gap-2">
+                            <div className="flex justify-end gap-2 pt-1">
                                 <button
                                     type="button"
                                     onClick={() => setIsSubtaskFormOpen(false)}
-                                    className="rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-slate-500 hover:bg-slate-800 transition-colors"
+                                    className="rounded-full border border-slate-700/80 px-3 py-1.5 text-[11px] font-medium text-slate-300 hover:border-slate-500 hover:bg-slate-900 transition-colors"
                                     disabled={isSubmitting}
                                 >
                                     Cancel
@@ -332,12 +342,12 @@ const TaskDetailsDialog: React.FC<TaskDetailsDialogProps> = ({
                                     disabled={
                                         isSubmitting || !subDescription.trim()
                                     }
-                                    className="rounded-full bg-indigo-500 px-4 py-1.5 text-xs font-semibold text-white shadow shadow-indigo-500/40 hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+                                    className="rounded-full bg-linear-to-r from-indigo-500 to-sky-400 px-4 py-1.5 text-[11px] font-semibold text-white shadow shadow-indigo-500/40 transition-all hover:shadow-sky-500/40 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     {isSubmitting ? "Adding..." : "Add subtask"}
                                 </button>
                             </div>
-                        </>
+                        </div>
                     )}
 
                     <div className="mt-3 flex justify-end">
